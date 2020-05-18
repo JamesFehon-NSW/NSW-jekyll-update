@@ -1,118 +1,583 @@
-<!DOCTYPE html>
-<!--[if lt IE 8]>
-	<html class="no-js lt-ie8 lt-ie9" lang="en">
-<![endif]-->
-<!--[if IE 8]>
-	<html class="no-js lt-ie9 ie8" lang="en">
-<![endif]-->
-<!--[if IE 9 ]>
-	<html class="no-js ie9" lang="en">
-<![endif]-->
-<!--[if !(IE)]><!-->
-	<html class="no-js" lang="en">
-<!--<![endif]-->
+<!doctype html>
+<html lang="en" class="no-js">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width">
-	<title>{% if site.browserTitle %}{{site.browserTitle}}{% else %}{% if page.breadcrumb %}{{ page.breadcrumb }} |{% endif %}{{site.title}} | NSW Government{% endif %}</title>
-	<script type="text/javascript">
-		var $html = document.documentElement; if ($html.classList) $html.classList.remove("no-js"), $html.classList.add("js"); else { var className = "no-js"; $html.className = $html.className.replace(new RegExp("(^|\\b)" + className.split(" ").join("|") + "(\\b|$)", "gi"), " "), $html.className += " js" }
-	</script>
-	<script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
-	<link rel="icon" href="{{site.baseurl}}/assets/favicons/favicon.ico">
-	<link type="text/css" rel="stylesheet" href="{{site.baseurl}}/assets/css/main.css">
-	<link type="text/css" rel="stylesheet" href="{{site.baseurl}}/local/css/additional.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if site.browserTitle %}{{site.browserTitle}}{% else %}{% if page.breadcrumb %}{{ page.breadcrumb }} |{% endif %}{{site.title}} | NSW Government{% endif %}</title>
+  <meta name="robots" content="noindex" />
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="icon" href="{{site.baseurl}}/assets/favicons/favicon.ico">
+  <link type="text/css" rel="stylesheet" href="{{site.baseurl}}/assets/css/main.css">
+  <link type="text/css" rel="stylesheet" href="{{site.baseurl}}/local/css/additional.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
+  <script>
+    // SVG Sprite Loader
+    var svgAjax = new XMLHttpRequest();
+    svgAjax.open("GET", "{{site.baseurl}}/assets/svg/sprite.svg", true);
+    svgAjax.send();
+    svgAjax.onload = function(e) {
+      var fragment = document.createRange().createContextualFragment(svgAjax.responseText);
+      var svg = fragment.querySelector('svg')
+      svg.setAttribute('aria-hidden', true);
+      svg.style.cssText = 'position: absolute; width: 0; height: 0; overflow: hidden;'
+      document.body.insertBefore(fragment, document.body.childNodes[0]);
+    };
+    // Replace 'no-js' with 'js' on the html tag
+    (function(e){e.className=e.className.replace(/\bno-js\b/,'js')})(document.documentElement);
+  </script>
 </head>
-<!-- BODY -->
-<!-- GRID-12 -->
-<body class="au-grid">
-	<!-- SKIP-LINKS -->
-	<nav class="au-skip-link">
-		<a class="au-skip-link__link" href="#content">Skip to main content</a>
-		<a class="au-skip-link__link" href="#mainmenu">Skip to main navigation</a>
-	</nav>
-	<!-- HEADER -->
-	<header class="au-header au-header--dark" role="banner">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-12">
-					<a class="au-header__brand" href="{{site.baseurl}}/">
-						<img class="au-header__brand-image" alt="NSW Government" src="{{site.baseurl}}/assets/img/nsw_white.png" width="90">
-						<div class="au-header__text">
-						<h2 class="au-header__heading">{{ site.title }}{% if site.stage %}<span class="header__badge">{{site.stage}}</span>{% endif %}</h2>
-						<div class="au-header__subline">{{ site.description }}</div>
-						</div>
-					</a>
-				</div>
-			</div>
-		</div>
-	</header>
-{% if site.data.navs.mainnav[0] %}
-	<!-- MAIN NAVIGATION -->
-	<nav class="au-main-nav au-main-nav--dark" id="mainmenu" aria-label="main navigation">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="au-main-nav__content" id="main-nav-default-dark">
-						<button
-							aria-controls="main-nav-default-dark"
-							class="au-main-nav__toggle au-main-nav__toggle--open"
-							onClick="return AU.mainNav.Toggle( this )">
-							Menu
-						</button>
 
-						<div class="au-main-nav__menu">
-							<div class="au-main-nav__menu-inner">
-								<div class="au-main-nav__focus-trap-top"></div>
-								<button
-									aria-controls="main-nav-default-dark"
-									class="au-main-nav__toggle au-main-nav__toggle--close"
-									onClick="return AU.mainNav.Toggle( this )">
-									Close
-								</button>
-								<ul class="au-link-list">
-                    {% for item in site.data.navs.mainnav[0].items %}
-  									   <li class="{% if item.url == page.url %}active{% endif %}"><a href="{{ site.baseurl }}{{ item.url }}">{{ item.page }}</a></li>
-                    {% endfor %}
-								</ul>
-								<div class="au-main-nav__focus-trap-bottom"></div>
-							</div>
-						</div>
-						<div class="au-main-nav__overlay" aria-controls="main-nav-default-dark" onClick="return AU.mainNav.Toggle( this )"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</nav>
+<body >
+  <nav class="nsw-skipto nsw-container" aria-label="Skip to links">
+  <a class="nsw-skipto__link" href="#nav"><span>Skip to navigation</span></a>
+  <a class="nsw-skipto__link" href="#content"><span>Skip to content</span></a>
+</nav>
+<div class="nsw-masthead">
+  <div class="nsw-container">
+    <p>A NSW Government website</p>
+  </div>
+</div>
+<header class="nsw-header">
+  <div class="nsw-header__container">
+    <div class="nsw-header__wrapper">
+      <div class="nsw-header__center">
+        <a href="#" class="nsw-header__logo-link">
+          <svg class="nsw-icon nsw-header__logo" focusable="false" aria-hidden="true">
+            <use xlink:href="#logo"></use>
+          </svg>
+          <span class="sr-only">{{ site.title }}</span>
+        </a>
+        {% if site.stage %}<span class="header__badge">{{site.stage}}</span>{% endif %}
+      </div>
+      <div class="nsw-header__left">
+        <button type="button" class="nsw-header-btn nsw-header-btn--menu js-open-navigation" aria-expanded="false"
+          aria-controls="main-navigation">
+          <svg class="nsw-icon nsw-header-btn__icon" focusable="false" aria-hidden="true">
+            <use xlink:href="#menu"></use>
+          </svg>
+          <span class="nsw-header-btn__sub"><span class="sr-only">Open</span> Menu</span>
+        </button>
+      </div>
+      <div class="nsw-header__right">
+        <button type="button" class="nsw-header-btn nsw-header-btn--search js-open-search" aria-expanded="false"
+          aria-controls="header-search">
+          <svg class="nsw-icon nsw-header-btn__icon" focusable="false" aria-hidden="true">
+            <use xlink:href="#search"></use>
+          </svg>
+          <span class="nsw-header-btn__sub"><span class="sr-only">Show</span> Search</span>
+        </button>
+      </div>
+    </div>
+    <div class="nsw-search">
+      <div id="header-search" class="nsw-search__area js-search-area" hidden>
+        <form role="search">
+          <label for="nsw-search__input" class="sr-only">Search site for:</label>
+          <input autocomplete="off" class="nsw-search__input js-search-input" id="nsw-search__input"
+            name="input-autocomplete" type="text">
+          <svg class="nsw-icon nsw-search__search-icon" focusable="false" aria-hidden="true">
+            <use xlink:href="#search"></use>
+          </svg>
+        </form>
+        <button class="nsw-search__close-btn js-close-search" aria-expanded="true" aria-controls="header-search">
+          <svg class="nsw-icon nsw-search__close-icon" focusable="false" aria-hidden="true">
+            <use xlink:href="#close"></use>
+          </svg>
+          <span class="sr-only">Close search</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+{% if site.data.navs.mainnav[0] %}
+<nav id="main-navigation" class="nsw-navigation" aria-label="Main menu">
+  <div class="nsw-navigation__header">
+    <h2 id="nsw-navigation">Menu</h2>
+    <button type="button" class="nsw-navigation__close js-close-navigation" aria-expanded="true">
+      <svg class="nsw-icon icon" focusable="false" aria-hidden="true">
+        <use xlink:href="#close"></use>
+      </svg>
+      <span class="sr-only">Close Menu</span>
+    </button>
+  </div>
+  <ul class="nsw-navigation__list">
+  	{% for item in site.data.navs.mainnav[0].items %}
+      <li class="nsw-navigation__list-item">
+        <a href="{{ site.baseurl }}{{ item.url }}" class="nsw-navigation__link">
+          <span class="nsw-navigation__link-text">{{ item.page }}</span>
+        </a>
+      </li>
+    {% endfor %}
+ </ul>
+</nav>
 {% endif %}
-<!-- MAIN BODY -->
-{{ content }}
-<!-- END MAIN BODY -->
-<!--FOOTER -->
-<footer class="au-footer au-footer--dark au-body au-body--dark" role="contentinfo">
-  <div class="container-fluid">
-    <div class="row">
-      <nav class="col-md-12">
-        <ul class="au-link-list au-link-list--inline">
-          {% if site.data.navs.bottomnav[0] %}
-            {% for item in site.data.navs.bottomnav[0].items %}
-                <li class="{% if item.url == page.url %}active{% endif %}"><a href="{{ site.baseurl }}{{ item.url }}">{{ item.page }}</a></li>
-            {% endfor %}
-          {% endif %}
+
+---
+
+
+<div class="nsw-hero-banner ">
+  <div class="nsw-container">
+    <div class="nsw-hero-banner__image-area">
+      <img src="https://picsum.photos/id/421/2000/1250" class="nsw-hero-banner__image" alt="">
+    </div>
+    <div class="nsw-hero-banner__content-area">
+      <div class="nsw-hero-banner__content">
+        <h2 class="nsw-hero-banner__title">
+          <a href="#" class="nsw-hero-banner__link">Buy Regional this Christmas</a>
+        </h2>
+        <p>NSW is facing one of the worst droughts on record. One of the best ways you can support regional communities in NSW is to Buy Regional this Christmas.</p>
+        <svg class="nsw-icon nsw-hero-banner__icon" focusable="false" aria-hidden="true">
+          <use xlink:href="#arrow"></use>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="nsw-container">
+  <nav aria-label="Breadcrumb" class="nsw-breadcrumb">
+    <ol class="nsw-breadcrumb__list">
+        <li class="nsw-breadcrumb__item">
+          <a href="#" class="nsw-breadcrumb__link " >Home</a>
+        </li>
+        <li class="nsw-breadcrumb__item">
+          <a href="#" class="nsw-breadcrumb__link " >News and Events</a>
+        </li>
+        <li class="nsw-breadcrumb__item">
+          <a href="#" class="nsw-breadcrumb__link " >News</a>
+        </li>
+        <li class="nsw-breadcrumb__item">
+          <a href="#" class="nsw-breadcrumb__link nsw-breadcrumb--current" aria-current="page">Download the Digital Driver Licence to your phone</a>
+        </li>
+    </ol>
+  </nav>
+</div>
+<div class="nsw-wysiwyg-content nsw-container">
+  {{ content }}
+</div>
+<div class="nsw-container">
+  <div class="nsw-grid">
+    <div class="nsw-col nsw-col--quarter"><div class="nsw-card ">
+    <div class="nsw-card__content">
+        <h2 class="nsw-card__title">
+          <a href="#" class="nsw-card__link">Ut placet inquam tum dicere exorsus est laborum et inter</a>
+        </h2>
+        <p class="nsw-card__copy">Sunt autem quibusdam et voluptatem ut ita ruant itaque earum motus et expe</p>
+        <svg class="nsw-icon nsw-card__icon" focusable="false" aria-hidden="true">
+          <use xlink:href="#arrow"></use>
+        </svg>
+    </div>
+    <div class="nsw-card__image-area">
+        <img src="https://picsum.photos/id/421/400/200" alt="" class="nsw-card__image">
+    </div>
+</div>
+</div>
+    <div class="nsw-col nsw-col--quarter"><div class="nsw-card ">
+    <div class="nsw-card__content">
+        <h2 class="nsw-card__title">
+          <a href="#" class="nsw-card__link">Ut placet inquam tum dicere exorsus est laborum et inter</a>
+        </h2>
+        <p class="nsw-card__copy">Sunt autem quibusdam et voluptatem ut ita ruant itaque earum motus et expe</p>
+        <svg class="nsw-icon nsw-card__icon" focusable="false" aria-hidden="true">
+          <use xlink:href="#arrow"></use>
+        </svg>
+    </div>
+    <div class="nsw-card__image-area">
+        <img src="https://picsum.photos/id/421/400/200" alt="" class="nsw-card__image">
+    </div>
+</div>
+</div>
+    <div class="nsw-col nsw-col--quarter"><div class="nsw-card ">
+    <div class="nsw-card__content">
+        <h2 class="nsw-card__title">
+          <a href="#" class="nsw-card__link">Ut placet inquam tum dicere exorsus est laborum et inter</a>
+        </h2>
+        <p class="nsw-card__copy">Sunt autem quibusdam et voluptatem ut ita ruant itaque earum motus et expe</p>
+        <svg class="nsw-icon nsw-card__icon" focusable="false" aria-hidden="true">
+          <use xlink:href="#arrow"></use>
+        </svg>
+    </div>
+    <div class="nsw-card__image-area">
+        <img src="https://picsum.photos/id/421/400/200" alt="" class="nsw-card__image">
+    </div>
+</div>
+</div>
+    <div class="nsw-col nsw-col--quarter"><div class="nsw-card ">
+    <div class="nsw-card__content">
+        <h2 class="nsw-card__title">
+          <a href="#" class="nsw-card__link">Ut placet inquam tum dicere exorsus est laborum et inter</a>
+        </h2>
+        <p class="nsw-card__copy">Sunt autem quibusdam et voluptatem ut ita ruant itaque earum motus et expe</p>
+        <svg class="nsw-icon nsw-card__icon" focusable="false" aria-hidden="true">
+          <use xlink:href="#arrow"></use>
+        </svg>
+    </div>
+    <div class="nsw-card__image-area">
+        <img src="https://picsum.photos/id/421/400/200" alt="" class="nsw-card__image">
+    </div>
+</div>
+</div>
+  </div>
+  <div class="nsw-grid">
+    <div class="nsw-col nsw-col--quarter"><div class="nsw-card ">
+    <div class="nsw-card__content">
+        <h2 class="nsw-card__title">
+          <a href="#" class="nsw-card__link">Ut placet inquam tum dicere exorsus est laborum et inter</a>
+        </h2>
+        <p class="nsw-card__copy">Sunt autem quibusdam et voluptatem ut ita ruant itaque earum motus et expe</p>
+        <svg class="nsw-icon nsw-card__icon" focusable="false" aria-hidden="true">
+          <use xlink:href="#arrow"></use>
+        </svg>
+    </div>
+    <div class="nsw-card__image-area">
+        <img src="https://picsum.photos/id/421/400/200" alt="" class="nsw-card__image">
+    </div>
+</div>
+</div>
+    <div class="nsw-col nsw-col--quarter"><div class="nsw-card ">
+    <div class="nsw-card__content">
+        <h2 class="nsw-card__title">
+          <a href="#" class="nsw-card__link">Ut placet inquam tum dicere exorsus est laborum et inter</a>
+        </h2>
+        <p class="nsw-card__copy">Sunt autem quibusdam et voluptatem ut ita ruant itaque earum motus et expe</p>
+        <svg class="nsw-icon nsw-card__icon" focusable="false" aria-hidden="true">
+          <use xlink:href="#arrow"></use>
+        </svg>
+    </div>
+    <div class="nsw-card__image-area">
+        <img src="https://picsum.photos/id/421/400/200" alt="" class="nsw-card__image">
+    </div>
+</div>
+</div>
+    <div class="nsw-col nsw-col--quarter"><div class="nsw-card ">
+    <div class="nsw-card__content">
+        <h2 class="nsw-card__title">
+          <a href="#" class="nsw-card__link">Ut placet inquam tum dicere exorsus est laborum et inter</a>
+        </h2>
+        <p class="nsw-card__copy">Sunt autem quibusdam et voluptatem ut ita ruant itaque earum motus et expe</p>
+        <svg class="nsw-icon nsw-card__icon" focusable="false" aria-hidden="true">
+          <use xlink:href="#arrow"></use>
+        </svg>
+    </div>
+    <div class="nsw-card__image-area">
+        <img src="https://picsum.photos/id/421/400/200" alt="" class="nsw-card__image">
+    </div>
+</div>
+</div>
+    <div class="nsw-col nsw-col--quarter"><div class="nsw-card ">
+    <div class="nsw-card__content">
+        <h2 class="nsw-card__title">
+          <a href="#" class="nsw-card__link">Ut placet inquam tum dicere exorsus est laborum et inter</a>
+        </h2>
+        <p class="nsw-card__copy">Sunt autem quibusdam et voluptatem ut ita ruant itaque earum motus et expe</p>
+        <svg class="nsw-icon nsw-card__icon" focusable="false" aria-hidden="true">
+          <use xlink:href="#arrow"></use>
+        </svg>
+    </div>
+    <div class="nsw-card__image-area">
+        <img src="https://picsum.photos/id/421/400/200" alt="" class="nsw-card__image">
+    </div>
+</div>
+</div>
+  </div>
+  <div class="nsw-grid">
+    <div class="nsw-col nsw-col--quarter"><div class="nsw-card ">
+    <div class="nsw-card__content">
+        <h2 class="nsw-card__title">
+          <a href="#" class="nsw-card__link">Ut placet inquam tum dicere exorsus est laborum et inter</a>
+        </h2>
+        <p class="nsw-card__copy">Sunt autem quibusdam et voluptatem ut ita ruant itaque earum motus et expe</p>
+        <svg class="nsw-icon nsw-card__icon" focusable="false" aria-hidden="true">
+          <use xlink:href="#arrow"></use>
+        </svg>
+    </div>
+    <div class="nsw-card__image-area">
+        <img src="https://picsum.photos/id/421/400/200" alt="" class="nsw-card__image">
+    </div>
+</div>
+</div>
+    <div class="nsw-col nsw-col--quarter"><div class="nsw-card ">
+    <div class="nsw-card__content">
+        <h2 class="nsw-card__title">
+          <a href="#" class="nsw-card__link">Ut placet inquam tum dicere exorsus est laborum et inter</a>
+        </h2>
+        <p class="nsw-card__copy">Sunt autem quibusdam et voluptatem ut ita ruant itaque earum motus et expe</p>
+        <svg class="nsw-icon nsw-card__icon" focusable="false" aria-hidden="true">
+          <use xlink:href="#arrow"></use>
+        </svg>
+    </div>
+    <div class="nsw-card__image-area">
+        <img src="https://picsum.photos/id/421/400/200" alt="" class="nsw-card__image">
+    </div>
+</div>
+</div>
+    <div class="nsw-col nsw-col--quarter"><div class="nsw-card ">
+    <div class="nsw-card__content">
+        <h2 class="nsw-card__title">
+          <a href="#" class="nsw-card__link">Ut placet inquam tum dicere exorsus est laborum et inter</a>
+        </h2>
+        <p class="nsw-card__copy">Sunt autem quibusdam et voluptatem ut ita ruant itaque earum motus et expe</p>
+        <svg class="nsw-icon nsw-card__icon" focusable="false" aria-hidden="true">
+          <use xlink:href="#arrow"></use>
+        </svg>
+    </div>
+    <div class="nsw-card__image-area">
+        <img src="https://picsum.photos/id/421/400/200" alt="" class="nsw-card__image">
+    </div>
+</div>
+</div>
+    <div class="nsw-col nsw-col--quarter"><div class="nsw-card ">
+    <div class="nsw-card__content">
+        <h2 class="nsw-card__title">
+          <a href="#" class="nsw-card__link">Ut placet inquam tum dicere exorsus est laborum et inter</a>
+        </h2>
+        <p class="nsw-card__copy">Sunt autem quibusdam et voluptatem ut ita ruant itaque earum motus et expe</p>
+        <svg class="nsw-icon nsw-card__icon" focusable="false" aria-hidden="true">
+          <use xlink:href="#arrow"></use>
+        </svg>
+    </div>
+    <div class="nsw-card__image-area">
+        <img src="https://picsum.photos/id/421/400/200" alt="" class="nsw-card__image">
+    </div>
+</div>
+</div>
+  </div>
+
+  <div class="nsw-grid">
+    <div class="nsw-col nsw-col--half"><div class="nsw-container">
+	  <div class="nsw-link-list">
+      <ul class="nsw-link-list__list">
+            <li class="nsw-link-list__item" >
+              <a class="nsw-link-list__link" href="#">Link one
+                <svg class="nsw-icon nsw-link-list__icon" focusable="false" aria-hidden="true">
+                  <use xlink:href="#arrow"></use>
+                </svg>
+              </a>
+            </li>
+            <li class="nsw-link-list__item" >
+              <a class="nsw-link-list__link" href="#">Link two
+                <svg class="nsw-icon nsw-link-list__icon" focusable="false" aria-hidden="true">
+                  <use xlink:href="#arrow"></use>
+                </svg>
+              </a>
+            </li>
+            <li class="nsw-link-list__item" >
+              <a class="nsw-link-list__link" href="#">Link three
+                <svg class="nsw-icon nsw-link-list__icon" focusable="false" aria-hidden="true">
+                  <use xlink:href="#arrow"></use>
+                </svg>
+              </a>
+            </li>
+            <li class="nsw-link-list__item" >
+              <a class="nsw-link-list__link" href="#">Last link which supposed to be very long
+                <svg class="nsw-icon nsw-link-list__icon" focusable="false" aria-hidden="true">
+                  <use xlink:href="#arrow"></use>
+                </svg>
+              </a>
+            </li>
+      </ul>
+    </div>
+</div>
+</div>
+    <div class="nsw-col nsw-col--half"><div class="nsw-container">
+	  <div class="nsw-link-list">
+      <ul class="nsw-link-list__list">
+            <li class="nsw-link-list__item" >
+              <a class="nsw-link-list__link" href="#">Link one
+                <svg class="nsw-icon nsw-link-list__icon" focusable="false" aria-hidden="true">
+                  <use xlink:href="#arrow"></use>
+                </svg>
+              </a>
+            </li>
+            <li class="nsw-link-list__item" >
+              <a class="nsw-link-list__link" href="#">Link two
+                <svg class="nsw-icon nsw-link-list__icon" focusable="false" aria-hidden="true">
+                  <use xlink:href="#arrow"></use>
+                </svg>
+              </a>
+            </li>
+            <li class="nsw-link-list__item" >
+              <a class="nsw-link-list__link" href="#">Link three
+                <svg class="nsw-icon nsw-link-list__icon" focusable="false" aria-hidden="true">
+                  <use xlink:href="#arrow"></use>
+                </svg>
+              </a>
+            </li>
+            <li class="nsw-link-list__item" >
+              <a class="nsw-link-list__link" href="#">Last link which supposed to be very long
+                <svg class="nsw-icon nsw-link-list__icon" focusable="false" aria-hidden="true">
+                  <use xlink:href="#arrow"></use>
+                </svg>
+              </a>
+            </li>
+      </ul>
+    </div>
+</div>
+</div>
+  </div>
+  <div class="nsw-grid">
+    <div class="nsw-container">
+      <nav aria-label="Pagination">
+        <ul class="nsw-pagination">
+          <li class="nsw-pagination__item nsw-pagination__item--prev-page">
+    
+            <a class="nsw-direction-link nsw-direction-link--icon-left" href="#">
+              <svg class="nsw-icon nsw-icon--rotate-180" focusable="false" aria-hidden="true">
+                <use xlink:href="#arrow"></use>
+              </svg>
+              <span class="nsw-direction-link__text">
+                Back <span class="sr-only">a page</span>
+              </span>
+            </a>
+    
+          </li>
+          <li class="nsw-pagination__item">
+            <a class="nsw-pagination__link" href="#">
+              <span class="nsw-pagination__text">
+                <span class="sr-only">Page </span>1
+              </span>
+            </a>
+          </li>
+          <li class="nsw-pagination__item">
+            <a class="nsw-pagination__link" href="#">
+              <span class="nsw-pagination__text">
+                <span class="sr-only">Page </span>2
+              </span>
+            </a>
+          </li>
+          <li class="nsw-pagination__item nsw-pagination__item--is-active">
+            <a class="nsw-pagination__link is-current" href="#" aria-current="page">
+              <span class="nsw-pagination__text">
+                <span class="sr-only">Page </span>3
+              </span>
+            </a>
+          </li>
+          <li class="nsw-pagination__item">
+            <a class="nsw-pagination__link" href="#">
+              <span class="nsw-pagination__text">
+                <span class="sr-only">Page </span>4
+              </span>
+            </a>
+          </li>
+          <li class="nsw-pagination__item">
+            <a class="nsw-pagination__link" href="#">
+              <span class="nsw-pagination__text">
+                &hellip;
+                <span class="sr-only">Page 5</span>
+              </span>
+            </a>
+          </li>
+          <li class="nsw-pagination__item">
+            <a class="nsw-pagination__link" href="#">
+              <span class="nsw-pagination__text">
+                <span class="sr-only">Page </span>12
+              </span>
+            </a>
+          </li>
+          <li class="nsw-pagination__item nsw-pagination__item--next-page">
+            <a class="nsw-direction-link" href="#">
+              <span class="nsw-direction-link__text">
+                Next <span class="sr-only">page</span>
+              </span>
+              <svg class="nsw-icon" focusable="false" aria-hidden="true">
+                <use xlink:href="#arrow"></use>
+              </svg>
+            </a>
+          </li>
         </ul>
       </nav>
-      <section class="col-sm-12">
-        <div class="au-footer__end">
-          <p>
-            © NSW Government. Licensed under the <a href="https://github.com/govau/uikit-starter/blob/master/LICENSE" rel="external">MIT license</a>
-          </p>
-        </div>
-      </section>
     </div>
+
+  </div>
+</div>
+
+<footer class="nsw-footer">
+  <div class="nsw-footer__upper">
+    <div class="nsw-container section-links">
+        <div class="section-links__group">
+          <h3 class="section-links__heading"><a href="#">Section Link</a></h3>
+          <ul class="section-links__list">
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+          </ul>
+        </div>
+        <div class="section-links__group">
+          <h3 class="section-links__heading"><a href="#">Section Link</a></h3>
+          <ul class="section-links__list">
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+          </ul>
+        </div>
+        <div class="section-links__group">
+          <h3 class="section-links__heading"><a href="#">Section Link</a></h3>
+          <ul class="section-links__list">
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+          </ul>
+        </div>
+        <div class="section-links__group">
+          <h3 class="section-links__heading"><a href="#">Section Link</a></h3>
+          <ul class="section-links__list">
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+              <li class="section-links__item"><a href="#">Highlight link</a></li>
+          </ul>
+        </div>
+    </div>
+  </div>
+  <div class="nsw-footer__lower">
+    <div class="nsw-container">
+      <p>We pay respect to the Traditional Custodians and First Peoples of NSW, and acknowledge their continued connection to their country and culture.</p>
+      <hr>
+	  {% if site.data.navs.tertiarynav[0] %}
+	  <ul class="nsw-footer-links">
+	    {% for item in site.data.navs.tertiarynav[0].items %}
+          <li class="nsw-footer-links__item">
+            <a href="{{ site.baseurl }}{{ item.url }}" class="nsw-footer-links__link">{{ item.page }}</a>
+          </li>
+	    {% endfor %}
+      </ul>
+	  {% endif %}
+      <div class="nsw-footer__info">
+        <p class="nsw-footer__copyright">© NSW Government. Licensed under the <a href="https://www.customerservice.nsw.gov.au/copyright" rel="external">Creative Commons Attribution 4.0 licence</a></p>
+        <!-- <p class="nsw-footer__built">Built by <a href="https://www.digital.nsw.gov.au/digital-design-system" target="_blank" rel="noopener noreferrer">NSW Design System</a></p> -->
+      </div>
+    </div>
+  </div>
 </footer>
-<script type="text/javascript" src="{{site.baseurl}}/assets/script.min.js"></script>
+
+  <script src="{{ site.baseurl }}/assets/js/main.js"></script>
+  <script>window.NSW.initSite()</script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- MAIN BODY -->
+
+<!-- END MAIN BODY -->
+<!--FOOTER -->
